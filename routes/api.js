@@ -43,7 +43,12 @@ module.exports = function (app) {
 
         // If only one stock symbol is provided, send its data
         if (validStockData.length === 1) {
-          return res.json({ stockData: validStockData[0] });
+          const singleStockData = {
+            stock: validStockData[0].stock,
+            price: validStockData[0].price,
+            likes: validStockData[0].likes,
+          };
+          return res.json({ stockData: singleStockData });
         }
 
         // Calculate relative likes for multiple stocks

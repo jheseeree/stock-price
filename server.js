@@ -12,13 +12,16 @@ const runner            = require('./test-runner');
 const app = express();
 app.use(helmet());
 
-app.use((req, res, next) => {
-  res.setHeader(
-    'Content-Security-Policy',
-    "default-src 'self'; script-src 'self'; style-src 'self';"
-  );
-  next();
-});
+app.use(helmet.hidePoweredBy());
+
+app.use(helmet.contentSecurityPolicy(
+  { 
+    directives: { 
+      defaultSrc: ["'self'"], 
+      scriptSrc: ["'self'", "trusted-cdn.com"] 
+    }
+  } 
+));
 
 app.use('/public', express.static(process.cwd() + '/public'));
 
